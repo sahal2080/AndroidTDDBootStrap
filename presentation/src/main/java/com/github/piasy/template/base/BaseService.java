@@ -3,9 +3,9 @@ package com.github.piasy.template.base;
 import android.app.Service;
 import com.github.piasy.template.app.di.AppComponent;
 import com.github.piasy.template.app.di.IApplication;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.EventBusException;
 import javax.inject.Inject;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBusException;
 import timber.log.Timber;
 
 /**
@@ -24,7 +24,7 @@ public abstract class BaseService extends Service {
             try {
                 mBus.register(this);
             } catch (EventBusException e) {
-                Timber.d("No subscriber at " + this.getClass().getName());
+                Timber.w(e, "No subscriber at %s", this.getClass().getName());
             }
         }
     }

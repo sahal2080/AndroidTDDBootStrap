@@ -22,22 +22,30 @@
  * SOFTWARE.
  */
 
-package com.github.piasy.template.features.splash.mvp;
-
-import android.support.annotation.NonNull;
-import com.hannesdorfmann.mosby.mvp.MvpPresenter;
+package com.github.piasy.common.android;
 
 /**
- * Created by Piasy{github.com/Piasy} on 15/7/24.
+ * Created by Piasy{github.com/Piasy} on 15/8/9.
  *
- * Presenter for {@link com.github.piasy.template.features.splash.SplashActivity}.
+ * Mock data provider for test.
  */
-public interface SplashPresenter extends MvpPresenter<SplashView> {
+public final class MockProvider {
+
+    private MockProvider() {
+        // no instance
+    }
 
     /**
-     * search users.
+     * Provide {@link com.github.piasy.common.android.utils.net.GithubAPIError} json string.
      *
-     * @param query the search query.
+     * @return {@link com.github.piasy.common.android.utils.net.GithubAPIError} json string.
      */
-    void searchUser(@NonNull String query);
+    public static String provideGithubAPIErrorStr() {
+        return "{\"message\":\"Validation Failed\",\"errors\":[{\"resource\":\"Issue\"," +
+                "\"field\":\"title\",\"code\":\"missing_field\"}]}";
+    }
+
+    public static String providePersonStr() {
+        return "{\"name\":\"Piasy\",\"age\":22}";
+    }
 }

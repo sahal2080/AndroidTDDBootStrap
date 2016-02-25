@@ -22,22 +22,41 @@
  * SOFTWARE.
  */
 
-package com.github.piasy.template.features.splash.mvp;
+package com.github.piasy.common.android.provider;
 
-import android.support.annotation.NonNull;
-import com.hannesdorfmann.mosby.mvp.MvpPresenter;
+import com.github.piasy.common.Constants;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by Piasy{github.com/Piasy} on 15/7/24.
+ * Created by Piasy{github.com/Piasy} on 15/7/23.
  *
- * Presenter for {@link com.github.piasy.template.features.splash.SplashActivity}.
+ * A singleton provider providing {@link Retrofit}.
  */
-public interface SplashPresenter extends MvpPresenter<SplashView> {
+final class RestProvider {
+
+    private RestProvider() {
+        // singleton
+    }
 
     /**
-     * search users.
+     * Provide the {@link Retrofit} singleton instance.
      *
-     * @param query the search query.
+     * @return the singleton {@link Retrofit}.
      */
-    void searchUser(@NonNull String query);
+    static Retrofit provideRetrofit() {
+        return RestAdapterHolder.sRetrofit;
+    }
+
+    private static class RestAdapterHolder {
+        // lazy instantiate
+        private static volatile Retrofit sRetrofit =
+                new Retrofit.Builder().baseUrl(Constants.GITHUB_SERVER_ENDPOINT)
+                        .client(HttpClientProvider.provideHttpClient())
+                        .addConverterFactory(
+                                GsonConverterFactory.create(GsonProvider.provideGson()))
+                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                        .build();
+    }
 }

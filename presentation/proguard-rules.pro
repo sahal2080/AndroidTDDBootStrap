@@ -15,5 +15,69 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keepattributes SourceFile, LineNumberTable
--keep class com.joanzapata.** { *; }
+-dontobfuscate
+
+# butterknife
+-keepattributes *Annotation*
+-keep class butterknife.** { *; }
+-keep class **$$ViewInjector { *; }
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+-dontwarn butterknife.internal.**
+
+
+# retrofit
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+# dagger
+-keepclassmembers,allowobfuscation class * {
+    @javax.inject.* *;
+    @dagger.* *;
+    <init>();
+}
+
+-keep class javax.inject.** { *; }
+-keep class **$$ModuleAdapter
+-keep class **$$InjectAdapter
+-keep class **$$StaticInjection
+-keep class dagger.** { *; }
+-dontwarn dagger.internal.codegen.**
+
+
+# eventbus
+-keepclassmembers, includedescriptorclasses class ** {
+    public void onEvent*(**);
+}
+-keepclassmembers, includedescriptorclasses class ** {
+    public void onEventMainThread*(**);
+}
+
+
+# xlog
+-keep class com.promegu.xlog.** { *; }
+-dontwarn javax.lang.**
+-dontwarn javax.tools.**
+
+
+# stetho
+-dontwarn org.apache.http.**
+-keep class com.facebook.stetho.dumpapp.** { *; }
+-keep class com.facebook.stetho.server.** { *; }
+-dontwarn com.facebook.stetho.dumpapp.**
+-dontwarn com.facebook.stetho.server.**
+
+
+# kotlin
+-dontwarn org.w3c.dom.events.**
+
+
+# leak canary
+-dontwarn com.squareup.leakcanary.**

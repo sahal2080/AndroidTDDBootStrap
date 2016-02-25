@@ -22,22 +22,38 @@
  * SOFTWARE.
  */
 
-package com.github.piasy.template.features.splash.mvp;
+package com.github.piasy.common.android.provider;
 
-import android.support.annotation.NonNull;
-import com.hannesdorfmann.mosby.mvp.MvpPresenter;
+import okhttp3.OkHttpClient;
 
 /**
- * Created by Piasy{github.com/Piasy} on 15/7/24.
+ * Created by Piasy{github.com/Piasy} on 15/7/23.
  *
- * Presenter for {@link com.github.piasy.template.features.splash.SplashActivity}.
+ * A singleton provider providing {@link OkHttpClient}.
  */
-public interface SplashPresenter extends MvpPresenter<SplashView> {
+final class HttpClientProvider {
+
+    private HttpClientProvider() {
+        // singleton
+    }
 
     /**
-     * search users.
+     * Provide the {@link OkHttpClient} singleton instance. Should be only called in test cases,
+     * besides {@link ProviderModule}.
      *
-     * @param query the search query.
+     * @return the singleton {@link OkHttpClient}.
      */
-    void searchUser(@NonNull String query);
+    static OkHttpClient provideHttpClient() {
+        return OkHttpClientHolder.sOkHttpClient;
+    }
+
+    private static class OkHttpClientHolder {
+        // lazy instantiate
+        private static volatile OkHttpClient sOkHttpClient;
+
+        static {
+            sOkHttpClient = new OkHttpClient();
+            //sOkHttpClient.networkInterceptors().add(new StethoInterceptor());
+        }
+    }
 }

@@ -22,22 +22,37 @@
  * SOFTWARE.
  */
 
-package com.github.piasy.template.features.splash.mvp;
+package com.github.piasy.common.android.provider;
 
-import android.support.annotation.NonNull;
-import com.hannesdorfmann.mosby.mvp.MvpPresenter;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by Piasy{github.com/Piasy} on 15/7/24.
  *
- * Presenter for {@link com.github.piasy.template.features.splash.SplashActivity}.
+ * A singleton provider providing {@link EventBus}.
  */
-public interface SplashPresenter extends MvpPresenter<SplashView> {
+final class EventBusProvider {
+
+    private EventBusProvider() {
+        // singleton
+    }
 
     /**
-     * search users.
+     * Provide the {@link EventBus} singleton instance.
      *
-     * @param query the search query.
+     * @return the singleton {@link EventBus}.
      */
-    void searchUser(@NonNull String query);
+    static EventBus provideEventBus() {
+        return EventBusHolder.sEventBus;
+    }
+
+    private static class EventBusHolder {
+        // lazy instantiate
+        private static volatile EventBus sEventBus = EventBus.builder()
+                .logNoSubscriberMessages(false)
+                .sendNoSubscriberEvent(false)
+                .eventInheritance(true)
+                .throwSubscriberException(true)
+                .build();
+    }
 }

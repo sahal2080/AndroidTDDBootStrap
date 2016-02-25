@@ -27,8 +27,8 @@ package com.github.piasy.template.base.mvp;
 import android.support.annotation.NonNull;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.hannesdorfmann.mosby.mvp.MvpView;
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.EventBusException;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.EventBusException;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import timber.log.Timber;
@@ -81,7 +81,7 @@ public abstract class BaseRxPresenter<V extends MvpView> extends MvpBasePresente
             try {
                 getEventBus().register(this);
             } catch (EventBusException e) {
-                Timber.d("No subscriber at " + this.getClass().getName());
+                Timber.w(e, "No subscriber at %s", this.getClass().getName());
             }
         }
     }
